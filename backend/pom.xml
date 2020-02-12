@@ -1,0 +1,120 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+
+  <groupId>com.orange.rotating-basis</groupId>
+  <artifactId>rotating-basis</artifactId>
+  <name>Rotating basis backend</name>
+  <version>1.0-SNAPSHOT</version>
+  <description>Rotating basis backend project</description>
+
+  <parent>
+    <groupId>com.orange.rotating-basis</groupId>
+    <artifactId>rotating-basis-parent</artifactId>
+    <relativePath>../parent/pom.xml</relativePath>
+    <version>1.0-SNAPSHOT</version>
+  </parent>
+
+  <properties>
+    <java.version>1.8</java.version>
+    <typescript-generator.version>2.0.400</typescript-generator.version>
+  </properties>
+
+	<dependencies>
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-data-jpa</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-data-rest</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-web</artifactId>
+		</dependency>
+
+		<dependency>
+			<groupId>com.h2database</groupId>
+			<artifactId>h2</artifactId>
+			<scope>runtime</scope>
+		</dependency>
+		<dependency>
+			<groupId>mysql</groupId>
+			<artifactId>mysql-connector-java</artifactId>
+			<scope>runtime</scope>
+		</dependency>
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-test</artifactId>
+			<scope>test</scope>
+			<exclusions>
+				<exclusion>
+					<groupId>org.junit.vintage</groupId>
+					<artifactId>junit-vintage-engine</artifactId>
+				</exclusion>
+			</exclusions>
+		</dependency>
+	</dependencies>
+
+	<build>
+		<plugins>
+			<plugin>
+				<groupId>org.springframework.boot</groupId>
+				<artifactId>spring-boot-maven-plugin</artifactId>
+			</plugin>
+      <!-- Build Angular Front UI distribution -->
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-resources-plugin</artifactId>
+        <executions>
+          <execution>
+            <id>copy-resources</id>
+            <phase>validate</phase>
+            <goals>
+              <goal>copy-resources</goal>
+            </goals>
+            <configuration>
+              <outputDirectory>${basedir}/target/classes/static</outputDirectory>
+              <resources>
+                <resource>
+                  <directory>${basedir}/../frontend/dist</directory>
+                </resource>
+              </resources>
+            </configuration>
+          </execution>
+        </executions>
+      </plugin>
+      <!-- Used to create frontend typescript data dto -->
+      <plugin>
+        <groupId>cz.habarta.typescript-generator</groupId>
+        <artifactId>typescript-generator-maven-plugin</artifactId>
+        <version>${typescript-generator.version}</version>
+        <executions>
+          <execution>
+            <id>generate</id>
+            <goals>
+              <goal>generate</goal>
+            </goals>
+            <phase>process-classes</phase>
+          </execution>
+        </executions>
+        <configuration>
+          <jsonLibrary>jackson2</jsonLibrary>
+          <outputFileType>implementationFile</outputFileType>
+          <outputKind>module</outputKind>
+          <classPatterns>
+            <classPattern>com.orange.up2you.model.**</classPattern>
+          </classPatterns>
+          <mapEnum>asEnum</mapEnum>
+          <mapClasses>asClasses</mapClasses>
+          <stringQuotes>singleQuotes</stringQuotes>
+          <outputFile>../frontend/src/app/core/generated/model.ts</outputFile>
+          <outputFileType>implementationFile</outputFileType>
+        </configuration>
+      </plugin>
+		</plugins>
+	</build>
+
+</project>
