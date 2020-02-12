@@ -1,0 +1,13 @@
+<div *ngIf="availablePlayers.length > 0" class="players">
+  <div class="mt-2">
+    <label>Available players</label>
+  </div>
+  <div class="d-flex justify-content-between mt-2 mb-4">
+    <select class="form-control" id="players" [(ngModel)]="selectedPlayer">
+      <option *ngFor="let p of availablePlayers" [ngValue]="p">{{ p.name }}</option>
+    </select>
+    <button class="btn btn-link" [attr.disabled]="!selectedPlayer ? '' : null" (click)="addPlayer()">
+      <img class="plus" src="assets/img/plus.svg" width="20" height="20" title="Add selected player">
+    </button>
+  </div>
+</div>

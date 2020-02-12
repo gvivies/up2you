@@ -1,0 +1,17 @@
+<div class="container-fluid">
+  <div class="row justify-content-center">
+    <div class="col-6">
+      <h2>{{ title }}</h2>
+      <form [formGroup]="formGroup" (ngSubmit)="save()">
+        <div class="form-group">
+          <label for="name">Name</label>
+          <input formControlName="name" type="text" class="form-control" id="name" placeholder="Enter name">
+        </div>
+      </form>
+      <div class="d-flex justify-content-around">
+        <button class="btn btn-secondary" (click)="cancel()">Cancel</button>
+        <button type="submit" class="btn btn-primary" (click)="save()">Save</button>
+      </div>
+    </div>
+  </div>
+</div>

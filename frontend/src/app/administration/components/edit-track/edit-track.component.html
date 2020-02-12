@@ -1,0 +1,28 @@
+<div class="container-fluid">
+  <div class="row justify-content-center">
+    <div class="col-6">
+      <h2>{{ title }}</h2>
+      <form [formGroup]="formGroup" (ngSubmit)="save()">
+        <div class="form-group">
+          <label for="description">Description</label>
+          <input formControlName="description" type="text" class="form-control" id="description" placeholder="Enter description">
+        </div>
+        <div class="form-group">
+          <label for="currentPosition">Current position</label>
+          <input formControlName="currentPosition" type="text" class="form-control" id="currentPosition" placeholder="Enter current position">
+        </div>
+        <ng-container *ngIf="(track$|async) as track">
+          <legend>Edit {{ track.type === playerType ? 'people': 'teams'}} in track:</legend>
+          <app-place *ngFor="let place of track.places" [place]="place" (remover)="removePlace(place)"
+                     (moverDown)="moveDown(place)" (moverUp)="moveUp(place)" [nbPlaces]="track.places.length"></app-place>
+          <app-add-place [places]="track.places" [availablePlayers]="availablePlayers$|async"
+                         (playerAdder)="addAPlayer($event)"></app-add-place>
+        </ng-container>
+      </form>
+      <div class="d-flex justify-content-around">
+        <button class="btn btn-secondary" (click)="cancel()">Cancel</button>
+        <button type="submit" class="btn btn-primary" (click)="save()">Save</button>
+      </div>
+    </div>
+  </div>
+</div>

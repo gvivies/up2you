@@ -1,0 +1,87 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+  <modelVersion>4.0.0</modelVersion>
+
+  <artifactId>rotating-basis-frontend</artifactId>
+  <name>Rotating basis frontend</name>
+  <description>Rotating basis - Frontend</description>
+  <packaging>pom</packaging>
+
+  <parent>
+    <groupId>com.orange.rotating-basis</groupId>
+    <artifactId>rotating-basis-parent</artifactId>
+    <relativePath>../parent/pom.xml</relativePath>
+    <version>1.0-SNAPSHOT</version>
+  </parent>
+
+  <build>
+    <plugins>
+      <plugin>
+        <artifactId>maven-clean-plugin</artifactId>
+        <version>2.5</version>
+        <configuration>
+          <filesets>
+            <fileset>
+              <directory>.</directory>
+              <followSymlinks>false</followSymlinks>
+              <includes>
+                <include>**/app/backend/generated/**</include>
+                <include>node/**</include>
+                <include>node_modules/**</include>
+                <include>dist/META-INF/resources/**</include>
+                <include>out-tsc/**</include>
+                <include>yarn-error.log</include>
+              </includes>
+            </fileset>
+          </filesets>
+        </configuration>
+      </plugin>
+
+      <plugin>
+        <groupId>com.github.eirslett</groupId>
+        <artifactId>frontend-maven-plugin</artifactId>
+        <version>1.8.0</version>
+        <configuration>
+          <nodeVersion>v10.17.0</nodeVersion>
+          <!-- <yarnVersion>v0.28.4</yarnVersion> -->
+          <npmVersion>6.13.1</npmVersion>
+          <!-- Remove comments on Orange networks
+          <nodeDownloadRoot>http://dv33nws1.creteil.francetelecom.fr/nodejs/dist/</nodeDownloadRoot>
+          <yarnDownloadRoot>http://dv33nws1.creteil.francetelecom.fr/yarn/</yarnDownloadRoot>
+               And change proxies to false
+          -->
+          <npmInheritsProxyConfigFromMaven>true</npmInheritsProxyConfigFromMaven>
+          <!-- <yarnInheritsProxyConfigFromMaven>true</yarnInheritsProxyConfigFromMaven> -->
+          <workingDirectory>${project.basedir}</workingDirectory>
+        </configuration>
+        <executions>
+          <execution>
+            <id>install node and npm</id>
+            <goals>
+              <goal>install-node-and-npm</goal>
+            </goals>
+          </execution>
+          <execution>
+            <id>npm install</id>
+            <phase>compile</phase>
+            <goals>
+              <goal>npm</goal>
+            </goals>
+            <configuration>
+              <arguments>install</arguments>
+            </configuration>
+          </execution>
+          <execution>
+            <id>build prod</id>
+            <phase>prepare-package</phase>
+            <goals>
+              <goal>npm</goal>
+            </goals>
+            <configuration>
+              <arguments>run build_prod</arguments>
+            </configuration>
+          </execution>
+        </executions>
+      </plugin>
+    </plugins>
+  </build>
+</project>

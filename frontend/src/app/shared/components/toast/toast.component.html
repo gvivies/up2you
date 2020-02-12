@@ -1,0 +1,7 @@
+<div class="locator" [@displayToast]="isDisplayed$|async">
+  <div class="zone" *ngIf="isDisplayed$ | async as display">
+    <div class="box" [ngClass]="{ 'alert-success': (isInfo$ | async ), 'alert-danger': !(isInfo$ | async)}">
+      <p>{{ message$ | async }}</p>
+    </div>
+  </div>
+</div>

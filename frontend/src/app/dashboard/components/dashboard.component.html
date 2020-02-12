@@ -1,0 +1,4 @@
+<h2>Tracks</h2>
+<ng-container *ngFor="let track of tracks$|async">
+  <app-track-graph [track]="track"></app-track-graph>
+</ng-container>

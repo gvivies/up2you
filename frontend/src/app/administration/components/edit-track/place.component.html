@@ -1,0 +1,13 @@
+  <div class="d-flex justify-content-between">
+    <div class="d-flex">
+      <label class="position">{{ place.position }}</label>
+      <label class="name" id="player" >{{ place.player.name }}</label>
+    </div>
+    <div class="d-flex">
+      <img *ngIf="place.position < nbPlaces" class="arrow-down" (click)="moveUp(place)" src="assets/img/arrow-down.svg" width="20" height="20" title="Move down this place">
+      <div *ngIf="place.position === 1" class="offset"></div>
+      <div *ngIf="place.position === nbPlaces" class="offset"></div>
+      <img *ngIf="place.position > 1" class="arrow-up" (click)="moveDown(place)" src="assets/img/arrow-up.svg" width="20" height="20" title="Move up this place">
+      <img class="trash" (click)="remove(place)" src="assets/img/trash.svg" width="20" height="20" title="Delete this place">
+    </div>
+  </div>
